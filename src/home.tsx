@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createRoot } from "react-dom/client";
+import { HeaderBar } from './components/HeaderBar';
 
 const Home = (props: {tab: string}) => {
     return (
