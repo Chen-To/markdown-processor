@@ -1,4 +1,4 @@
-import { TokenTypes, Token, textRegex, escapeRegex, listRegex, horizontalRegex } from "./tokens"
+import { TokenTypes, Token, TEXT_REGEX, ESCAPE_REGEX, LIST_REGEX, HORIZONTAL_REGEX } from "./tokens"
 import { isNumeric } from "./helper_functions";
 
 class Scanner {
@@ -74,7 +74,7 @@ export class Tokenizer extends Scanner {
         let resultText = firstChar;
         let currChar = this.#scanNextCharacter();
         // in case it is null we check first
-        while (currChar && textRegex.test(currChar)) {
+        while (currChar && TEXT_REGEX.test(currChar)) {
             resultText += currChar;
             currChar = this.#scanNextCharacter();
         }
@@ -100,7 +100,7 @@ export class Tokenizer extends Scanner {
 
     #tokenizeEscapeCharacter(): Token | null {
         const escapedChar = this.#scanNextCharacter();
-        if (escapeRegex.test(escapedChar)) {
+        if (ESCAPE_REGEX.test(escapedChar)) {
             // since we only escape one character no need to reset to previous
             return new Token(TokenTypes.Text, escapedChar);
         }
@@ -168,18 +168,19 @@ export class Tokenizer extends Scanner {
                     continue;
                 }
                 // TODO: isNumeric used twice maybe examine a better way to write this
-                else if (isNumeric(currChar) || listRegex.test(currChar)) {
+                else if (isNumeric(currChar) || LIST_REGEX.test(currChar)) {
                     const listToken = this.#tokenizeList(currChar);
                     if (listToken) {
                         tokens.push(listToken);
                         continue;
                     }
                 }
+                // start of line relevant
                 else if (currChar === ">") {
                     tokens.push(new Token(TokenTypes.Quote, ">"));
                     continue;
                 }
-                else if (horizontalRegex.test(currChar)) {
+                else if (HORIZONTAL_REGEX.test(currChar)) {
                     const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
                     if (horizontalRuleToken) {
                         tokens.push(horizontalRuleToken);
@@ -213,7 +214,7 @@ export class Tokenizer extends Scanner {
                 tokens.push(formatToken);
             }
             // need to keep this at end because it overlaps with some of the previous characters
-            else if (textRegex.test(currChar)) {
+            else if (TEXT_REGEX.test(currChar)) {
                 tokens.push(this.#tokenizeText(currChar));
             }   
 
@@ -245,6 +246,4 @@ export class LineScanner extends Scanner {
         }
     }
 }
-
-
  

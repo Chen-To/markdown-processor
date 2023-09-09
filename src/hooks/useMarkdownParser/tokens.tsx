@@ -28,10 +28,10 @@ export class Token {
 }
 
 // eslint-disable-next-line no-useless-escape 
-export const textRegex = new RegExp("[^\s\\*<>`]"); // alternative regex [a-zA-Z0-9.!?:;()-_='\"]
+export const TEXT_REGEX = new RegExp("[^\s\\*<>`]"); // alternative regex [a-zA-Z0-9.!?:;()-_='\"]
 
-export const escapeRegex = new RegExp("[*\\`_<>#+-]");
+export const ESCAPE_REGEX = new RegExp("[*\\`_<>#+-]");
 
-export const listRegex = new RegExp("[*+-]");
+export const LIST_REGEX = new RegExp("[*+-]");
 
-export const horizontalRegex = new RegExp("[*-_]")
+export const HORIZONTAL_REGEX = new RegExp("[*-_]")
