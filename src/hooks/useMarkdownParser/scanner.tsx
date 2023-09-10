@@ -11,6 +11,8 @@ class Scanner {
     }
 }
 
+
+// TODO: Nesting will not work with blockquotes (also list nesting headers, list nesting blockquotes) (REQUIRES TOKENIZER FIX)
 export class Tokenizer extends Scanner {
     constructor(input: string) {
         super(input);
@@ -191,7 +193,7 @@ export class Tokenizer extends Scanner {
                         continue;
                     }
                 }
-                // TODO: isNumeric used twice maybe examine a better way to write this
+                // POTENTIAL: isNumeric used twice maybe examine a better way to write this
                 else if (isNumeric(currChar) || LIST_REGEX.test(currChar)) {
                     const listToken = this.#tokenizeList(currChar);
                     if (listToken) {
