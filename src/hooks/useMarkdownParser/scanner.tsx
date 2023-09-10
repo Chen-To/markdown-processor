@@ -99,8 +99,14 @@ export class Tokenizer extends Scanner {
     }
 
     #tokenizeEscapeCharacter(): Token | null {
-        const escapedChar = this.#scanNextCharacter();
+        let escapedChar = this.#scanNextCharacter();
         if (ESCAPE_REGEX.test(escapedChar)) {
+            if (escapedChar === "<") {
+                escapedChar = "&lt";
+            }
+            else if (escapedChar === ">") {
+                escapedChar = "&gt";
+            }
             // since we only escape one character no need to reset to previous
             return new Token(TokenTypes.Text, escapedChar);
         }
