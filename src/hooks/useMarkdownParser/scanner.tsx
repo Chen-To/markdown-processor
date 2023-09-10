@@ -1,6 +1,7 @@
 import { TokenTypes, Token, TEXT_REGEX, ESCAPE_REGEX, LIST_REGEX, HORIZONTAL_REGEX } from "./tokens"
 import { isNumeric } from "./helper_functions";
 
+
 class Scanner {
     input : string;
     charId : number;
@@ -26,7 +27,25 @@ export class Tokenizer extends Scanner {
             return null;
         }
         else {
+            return this.input[++this.charId];
+        }
+    }
+    
+    #getCurrentCharacter(): string | null {
+        if (this.charId >= this.input.length) {
+            return null;
+        }
+        else {
             return this.input[this.charId++];
+        }
+    }
+
+    #peekNextCharacter(): string | null {
+        if (this.charId + 1 >= this.input.length) {
+            return null;
+        }
+        else {
+            return this.input[this.charId + 1];
         }
     }
 
@@ -34,8 +53,9 @@ export class Tokenizer extends Scanner {
         let tokenVal = "#";
         // default case 1
         let token = new Token(TokenTypes.Heading1, tokenVal);
-        while (this.#scanNextCharacter() === "#") {
+        while (this.#peekNextCharacter() === "#") {
             tokenVal += "#";
+            this.#scanNextCharacter();
         }
         switch(tokenVal.length) {
             case 2:
@@ -54,32 +74,26 @@ export class Tokenizer extends Scanner {
                 token = new Token(TokenTypes.Heading6, tokenVal);
                 break;
         }
-        // reset to previous character (ending #) so our "next character" is correctly read 
-        this.#resetToPrevious();
         return token;
     }
 
     // start of line relevant
     #tokenizeWhitespace(): Token {
         let whiteSpace = " ";
-        while (this.#scanNextCharacter() === " ") {
+        while (this.#peekNextCharacter() === " ") {
             whiteSpace += " ";
+            this.#getCurrentCharacter();
         }
-        // reset to previous character (the last " " of the sequence) so our "next character" is correctly read 
-        this.#resetToPrevious();
         return new Token(TokenTypes.Whitespace, whiteSpace);
     }
 
-    #tokenizeText(firstChar: string): Token {
-        let resultText = firstChar;
-        let currChar = this.#scanNextCharacter();
+    #tokenizeText(): Token {
+        let resultText = this.#getCurrentCharacter();
         // in case it is null we check first
-        while (currChar && TEXT_REGEX.test(currChar)) {
-            resultText += currChar;
-            currChar = this.#scanNextCharacter();
+        while (this.#peekNextCharacter() && TEXT_REGEX.test(this.#peekNextCharacter())) {
+            resultText += this.#peekNextCharacter();
+            this.#scanNextCharacter();
         }
-        // reset to previous character (the last alphanumeric character in the text) so our "next character" is correctly read 
-        this.#resetToPrevious();
         return new Token(TokenTypes.Text, resultText);
     }
 
@@ -88,18 +102,18 @@ export class Tokenizer extends Scanner {
         if (lastFormatToken === TokenTypes.Italic) {
             return new Token(TokenTypes.Italic, "*")
         }
-        else if (this.#scanNextCharacter() !== "*") {
-            // reset to previous character so our "next character" is correctly read 
-            this.#resetToPrevious();
+        else if (this.#peekNextCharacter() !== "*") {
             return new Token(TokenTypes.Italic, "*");
         }
         else {
+            // since we confirmed the next character is a * we count it as a part of the new token so we need to get it
+            this.#scanNextCharacter();
             return new Token(TokenTypes.Bold, "**");
         }
     }
 
-    #tokenizeEscapeCharacter(): Token | null {
-        let escapedChar = this.#scanNextCharacter();
+    #tokenizeEscapeCharacter(): Token {
+        let escapedChar = this.#peekNextCharacter();
         if (ESCAPE_REGEX.test(escapedChar)) {
             if (escapedChar === "<") {
                 escapedChar = "&lt";
@@ -111,9 +125,7 @@ export class Tokenizer extends Scanner {
             return new Token(TokenTypes.Text, escapedChar);
         }
         else {
-            // reset to previous character so our "next character" is correctly read 
-            this.#resetToPrevious();
-            return null;
+            return new Token(TokenTypes.Text, "\\");
         }
     }
 
@@ -132,12 +144,11 @@ export class Tokenizer extends Scanner {
             }
         }
         else {
-            if (this.#scanNextCharacter() === " ") {
+            if (this.#peekNextCharacter() === " ") {
+                this.#scanNextCharacter();
                 return new Token(TokenTypes.UnorderedList, firstChar);
             }
             else {
-                // reset once because we checked one next character to guarantee it is space
-                this.#resetToPrevious();
                 return null;
             }
         }
@@ -163,15 +174,22 @@ export class Tokenizer extends Scanner {
 
     tokenizeLine(): Array<Token> {
         const tokens: Array<Token> = [];
-        let currChar = this.#scanNextCharacter();
+        let currChar = this.#getCurrentCharacter();
         let lastFormatType = null;
         while (currChar) {
-
             // this indicates that we are at the start of the line so there are extra markdown rules to keep track of
-            if (tokens.length == 0) {
+            if (tokens.length === 0) {
                 if (currChar === "#") {
                     tokens.push(this.#tokenizeHeading());
                     continue;
+                }
+                // keep horizontal rule before list
+                else if (HORIZONTAL_REGEX.test(currChar)) {
+                    const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
+                    if (horizontalRuleToken) {
+                        tokens.push(horizontalRuleToken);
+                        continue;
+                    }
                 }
                 // TODO: isNumeric used twice maybe examine a better way to write this
                 else if (isNumeric(currChar) || LIST_REGEX.test(currChar)) {
@@ -186,12 +204,20 @@ export class Tokenizer extends Scanner {
                     tokens.push(new Token(TokenTypes.Quote, ">"));
                     continue;
                 }
-                else if (HORIZONTAL_REGEX.test(currChar)) {
-                    const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
-                    if (horizontalRuleToken) {
-                        tokens.push(horizontalRuleToken);
-                        continue;
+                else if (currChar === " ") {
+                    const whitespaceToken = this.#tokenizeWhitespace()
+                    tokens.push(whitespaceToken);
+                    if (isNumeric(this.#peekNextCharacter()) || LIST_REGEX.test(this.#peekNextCharacter())) {
+                        const listToken = this.#tokenizeList(this.#scanNextCharacter());
+                        if (listToken) {
+                            tokens.push(listToken);
+                        }
+                        else {
+                            // reset once because we scanned the next character to attempt to create a listToken but failed
+                            this.#resetToPrevious();
+                        }
                     }
+                    continue;
                 }
             }
 
@@ -209,10 +235,7 @@ export class Tokenizer extends Scanner {
                 tokens.push(this.#tokenizeWhitespace());
             }
             else if (currChar === "\\") {
-                const escapeToken = this.#tokenizeEscapeCharacter();
-                if (escapeToken) {
-                    tokens.push(escapeToken);
-                }
+                tokens.push(this.#tokenizeEscapeCharacter());
             }
             else if (currChar === "*") {
                 const formatToken = this.#tokenizeItalticOrBold(lastFormatType);
@@ -221,7 +244,7 @@ export class Tokenizer extends Scanner {
             }
             // need to keep this at end because it overlaps with some of the previous characters
             else if (TEXT_REGEX.test(currChar)) {
-                tokens.push(this.#tokenizeText(currChar));
+                tokens.push(this.#tokenizeText());
             }   
 
             currChar = this.#scanNextCharacter();
