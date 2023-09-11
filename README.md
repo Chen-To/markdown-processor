@@ -12,7 +12,9 @@ I also intend to add more features and develop a simple, but good looking site.
 
 ## Description 
 
-A work in progress Markdown Compiler that will transform markdown into HTML.
+A work in progress website that will take markdown as input and display the corresponding html. 
+
+It is essentially a markdown compiler built completely from the ground up. 
 
 ## Core Idea
 
