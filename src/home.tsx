@@ -8,6 +8,6 @@ const Home = (props: {tab: string}) => {
     );
 }
 
-const container = document.getElementById("react-personal-target");
+const container = document.getElementById("react-markdown-target");
 const root = createRoot(container);
 root.render(<Home tab = "home"/>);
