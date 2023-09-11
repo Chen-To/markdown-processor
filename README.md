@@ -2,16 +2,17 @@
 
 *** 
 
-## Description 
-A work in progress Markdown Compiler that will transform markdown into HTML.
-
-***
-
 ## Progress
 
 Currently I have finished the core logic of the markdown compiler and I am working on testing as well as the actual frontend display.
 
 I also intend to add more features and develop a simple, but good looking site.
+
+***
+
+## Description 
+
+A work in progress Markdown Compiler that will transform markdown into HTML.
 
 ## Core Idea
 
