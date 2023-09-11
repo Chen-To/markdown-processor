@@ -13,6 +13,7 @@ class Scanner {
 
 
 // TODO: Nesting will not work with blockquotes (also list nesting headers, list nesting blockquotes) (REQUIRES TOKENIZER FIX)
+// TODO: Underscores will not work for italicizing or bolding
 export class Tokenizer extends Scanner {
     constructor(input: string) {
         super(input);
