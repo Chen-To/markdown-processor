@@ -10,7 +10,6 @@ export default function InputBox() {
     const WrapperBox = styled("div")({
         display: "flex",
         marginTop: "100px",
-        flexDirection: "column",
         justifyContent: "center",
     });
 
@@ -20,12 +19,19 @@ export default function InputBox() {
 
     return (
         <WrapperBox>
-            <Box sx={{ width: "50%" }}>
+            <CssBaseline/>
+            <Box sx={{ width: "45%" }}>
                 <CssBaseline/>
                 <AppBar position="relative">
                     <Typography variant="h6" align='center'>Markdown</Typography>
                 </AppBar>
                 <TextAreaBox minRows={20}/>
+            </Box>
+            <Box sx={{ width: "45% "}}>
+                <CssBaseline/>
+                <AppBar position="relative">
+                    <Typography variant="h6" align='center'>Preview</Typography>
+                </AppBar>
             </Box>
         </WrapperBox>
     )
