@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { createRoot } from "react-dom/client";
-import { HeaderBar } from './components/HeaderBar';
+import HeaderBar from './components/HeaderBar';
 
 const Home = (props: {tab: string}) => {
     return (
-        <div>Hello World TEST</div>
+        <>
+            <HeaderBar/>
+            <div>Hello World TEST</div>
+        </>
     );
 }
 
