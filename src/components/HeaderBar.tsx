@@ -15,7 +15,7 @@ export default function HeaderBar() {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <AppBar position="fixed" color='primary'>
+                <AppBar color='primary'>
                     <Typography variant="h3" align='center'>Markdown Editor</Typography>
                 </AppBar>
             </ThemeProvider>
