@@ -19,6 +19,7 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
     for (let i = startingIndex; i < endingIndex; ++i) {
         switch (arrTokens[i].tokenType) {
             case TokenTypes.Text:
+                console.log("HERE TEXT");
                 root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, arrTokens[i].val));
                 break;
             case TokenTypes.Whitespace:
@@ -140,6 +141,7 @@ function convertMarkdownToTokens(inputMarkdown: string): Array<Array<Token>> {
     const ls = new LineScanner(inputMarkdown);
     const allTokens: Array<Array<Token>> = [];
     let currLine = ls.scanLine();
+    console.log(`currLine: ${currLine}`)
     while (currLine) {
         const tokenizer = new Tokenizer(currLine);
         allTokens.push(tokenizer.tokenizeLine());
@@ -155,6 +157,7 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
     let currParagraphTree: SyntaxTree = null;
     let newParagraph: boolean = true;
     const allTokens = convertMarkdownToTokens(inputMarkdown);
+    console.log(`allTokens: ${allTokens}`)
     for (let i = 0; i < allTokens.length; ++i) {
         if (allTokens[i].length === 0) {
             // TODO: Examine empty line logic (its a skip line for now) but it is relevant for starting new paragraphs
@@ -236,7 +239,7 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
                 if (newParagraph) {
                     currParagraphTree = SyntaxTree.syntaxTreeFactory(NodeTypes.P);
                 }
-                parseGeneral(currParagraphTree, allTokens[i], 1, allTokens[i].length);
+                parseGeneral(currParagraphTree, allTokens[i], 0, allTokens[i].length);
             }
         }
         if (newParagraph && currParagraphTree) {
@@ -251,13 +254,18 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
     return syntaxTree;
 }
 
+type MarkdownParserHookProps = {
+    inputMarkdown: string;
+}
 
-export const useMarkdownParser = (props: {inputMarkdown : string}) => {
+export const useMarkdownParser = ({ inputMarkdown }: MarkdownParserHookProps) => {
     const [outputHTML, setOutputHTML] = useState("");
     useEffect(() => {
-        const syntaxTree = generateSyntaxTree(props.inputMarkdown);
+        const syntaxTree = generateSyntaxTree(inputMarkdown);
         const html = syntaxTree.generateHTML();
         setOutputHTML(html);
+        // For debugging
+        console.log(html);
     });
     return outputHTML;
 }

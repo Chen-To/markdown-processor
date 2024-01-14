@@ -39,7 +39,8 @@ export class Tokenizer extends Scanner {
             return null;
         }
         else {
-            return this.input[this.charId++];
+            // console.log(this.input[this.charId]);
+            return this.input[this.charId];
         }
     }
 
@@ -85,7 +86,7 @@ export class Tokenizer extends Scanner {
         let whiteSpace = " ";
         while (this.#peekNextCharacter() === " ") {
             whiteSpace += " ";
-            this.#getCurrentCharacter();
+            this.#scanNextCharacter();
         }
         return new Token(TokenTypes.Whitespace, whiteSpace);
     }
@@ -97,6 +98,7 @@ export class Tokenizer extends Scanner {
             resultText += this.#peekNextCharacter();
             this.#scanNextCharacter();
         }
+        console.log(`resultText: ${resultText}`)
         return new Token(TokenTypes.Text, resultText);
     }
 
@@ -247,6 +249,7 @@ export class Tokenizer extends Scanner {
             }
             // need to keep this at end because it overlaps with some of the previous characters
             else if (TEXT_REGEX.test(currChar)) {
+                console.log("Token Text");
                 tokens.push(this.#tokenizeText());
             }   
 
@@ -269,7 +272,7 @@ export class LineScanner extends Scanner {
         }
         else {
             let token = "";
-            while (this.input[this.charId] !== '\n') {
+            while (this.charId < this.input.length && this.input[this.charId] !== '\n') {
                 token += this.input[this.charId++];
             }
             // skipping the newline character

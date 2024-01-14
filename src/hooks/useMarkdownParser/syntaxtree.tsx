@@ -103,6 +103,7 @@ export class SyntaxTree {
                 break;
             // redundant case here for only clarity
             case NodeTypes.Text:
+                html = this.value;
                 break;
         }
         return html;

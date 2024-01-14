@@ -25,6 +25,9 @@ export class Token {
         this.tokenType = tokenType;
         this.val = val;
     }
+    toString(): string {
+        return this.tokenType + " " + this.val;
+    }
 }
 
 // eslint-disable-next-line no-useless-escape 
