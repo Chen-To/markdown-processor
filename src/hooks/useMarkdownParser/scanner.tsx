@@ -186,6 +186,7 @@ export class Tokenizer extends Scanner {
             if (tokens.length === 0) {
                 if (currChar === "#") {
                     tokens.push(this.#tokenizeHeading());
+                    currChar = this.#scanNextCharacter();
                     continue;
                 }
                 // keep horizontal rule before list
@@ -193,6 +194,7 @@ export class Tokenizer extends Scanner {
                     const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
                     if (horizontalRuleToken) {
                         tokens.push(horizontalRuleToken);
+                        currChar = this.#scanNextCharacter();
                         continue;
                     }
                 }
@@ -201,12 +203,14 @@ export class Tokenizer extends Scanner {
                     const listToken = this.#tokenizeList(currChar);
                     if (listToken) {
                         tokens.push(listToken);
+                        currChar = this.#scanNextCharacter();
                         continue;
                     }
                 }
                 // start of line relevant
                 else if (currChar === ">") {
                     tokens.push(new Token(TokenTypes.Quote, ">"));
+                    currChar = this.#scanNextCharacter();
                     continue;
                 }
                 else if (currChar === " ") {
@@ -222,6 +226,7 @@ export class Tokenizer extends Scanner {
                             this.#resetToPrevious();
                         }
                     }
+                    currChar = this.#scanNextCharacter();
                     continue;
                 }
             }
@@ -252,7 +257,6 @@ export class Tokenizer extends Scanner {
                 console.log("Token Text");
                 tokens.push(this.#tokenizeText());
             }   
-
             currChar = this.#scanNextCharacter();
 
         }

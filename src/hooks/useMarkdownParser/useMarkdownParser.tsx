@@ -186,28 +186,28 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
                 break;
             }
             case TokenTypes.Heading3: {
-                const heading3Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H1);
+                const heading3Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H3);
                 parseGeneral(heading3Tree, allTokens[i], 1, allTokens[i].length);
                 syntaxTree.children.push(heading3Tree);
                 newParagraph = true;
                 break;
             }
             case TokenTypes.Heading4: {
-                const heading4Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H1);
+                const heading4Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H4);
                 parseGeneral(heading4Tree, allTokens[i], 1, allTokens[i].length);
                 syntaxTree.children.push(heading4Tree);
                 newParagraph = true;
                 break;
             }
             case TokenTypes.Heading5: {
-                const heading5Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H1);
+                const heading5Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H5);
                 parseGeneral(heading5Tree, allTokens[i], 1, allTokens[i].length);
                 syntaxTree.children.push(heading5Tree);
                 newParagraph = true;
                 break;
             }
             case TokenTypes.Heading6: {
-                const heading6Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H1);
+                const heading6Tree = SyntaxTree.syntaxTreeFactory(NodeTypes.H6);
                 parseGeneral(heading6Tree, allTokens[i], 1, allTokens[i].length);
                 syntaxTree.children.push(heading6Tree);
                 newParagraph = true;
