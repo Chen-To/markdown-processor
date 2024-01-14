@@ -37,4 +37,4 @@ export const ESCAPE_REGEX = new RegExp(/[*\\`_<>#+-]/);
 
 export const LIST_REGEX = new RegExp(/[*+-]/);
 
-export const HORIZONTAL_REGEX = new RegExp(/[*-_]/)
+export const HORIZONTAL_REGEX = new RegExp(/[*_-]/)
