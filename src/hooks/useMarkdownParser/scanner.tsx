@@ -192,7 +192,7 @@ export class Tokenizer extends Scanner {
                     continue;
                 }
                 // keep horizontal rule before list
-                else if (HORIZONTAL_REGEX.test(currChar)) {
+                if (HORIZONTAL_REGEX.test(currChar)) {
                     console.log("HORIZONTAL RULE HERE");
                     const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
                     if (horizontalRuleToken) {
@@ -202,7 +202,7 @@ export class Tokenizer extends Scanner {
                     }
                 }
                 // POTENTIAL: isNumeric used twice maybe examine a better way to write this
-                else if (isNumeric(currChar) || LIST_REGEX.test(currChar)) {
+                if (isNumeric(currChar) || LIST_REGEX.test(currChar)) {
                     const listToken = this.#tokenizeList(currChar);
                     if (listToken) {
                         tokens.push(listToken);
@@ -211,12 +211,12 @@ export class Tokenizer extends Scanner {
                     }
                 }
                 // start of line relevant
-                else if (currChar === ">") {
+                if (currChar === ">") {
                     tokens.push(new Token(TokenTypes.Quote, ">"));
                     currChar = this.#scanNextCharacter();
                     continue;
                 }
-                else if (currChar === " ") {
+                if (currChar === " ") {
                     const whitespaceToken = this.#tokenizeWhitespace()
                     tokens.push(whitespaceToken);
                     if (isNumeric(this.#peekNextCharacter()) || LIST_REGEX.test(this.#peekNextCharacter())) {
