@@ -94,11 +94,12 @@ export class Tokenizer extends Scanner {
     #tokenizeText(): Token {
         let resultText = this.#getCurrentCharacter();
         // in case it is null we check first
+        console.log(`resultText1: ${resultText}`)
         while (this.#peekNextCharacter() && TEXT_REGEX.test(this.#peekNextCharacter())) {
             resultText += this.#peekNextCharacter();
             this.#scanNextCharacter();
         }
-        console.log(`resultText: ${resultText}`)
+        console.log(`resultText2: ${resultText}`)
         return new Token(TokenTypes.Text, resultText);
     }
 
@@ -170,9 +171,10 @@ export class Tokenizer extends Scanner {
         if (ruleStr.length >= 3 && ruleStr.length === this.input.length) {
             return new Token(TokenTypes.HorizontalRule, ruleStr);
         }
-        // In this case we reset the charId to that of the second character to avoid the edge case with a line containing **
+        // In this case we reset the charId to that of the first character as clearly this line does not contain a horizontal rule
+        // It may contain bold or italicized text
         else {
-            this.charId = 1;
+            this.charId = 0;
             return null;
         }
     }
@@ -191,6 +193,7 @@ export class Tokenizer extends Scanner {
                 }
                 // keep horizontal rule before list
                 else if (HORIZONTAL_REGEX.test(currChar)) {
+                    console.log("HORIZONTAL RULE HERE");
                     const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
                     if (horizontalRuleToken) {
                         tokens.push(horizontalRuleToken);
@@ -230,7 +233,7 @@ export class Tokenizer extends Scanner {
                     continue;
                 }
             }
-
+            console.log(`currLine2: ${this.input}`);
             // all other general markdown rules not specific to start of the line
             if (currChar === "<") {
                 tokens.push(new Token(TokenTypes.LLink, "<"));
@@ -250,11 +253,12 @@ export class Tokenizer extends Scanner {
             else if (currChar === "*") {
                 const formatToken = this.#tokenizeItalticOrBold(lastFormatType);
                 lastFormatType = lastFormatType === formatToken.tokenType ? null : formatToken.tokenType;
+                console.log(this.#peekNextCharacter());
                 tokens.push(formatToken);
             }
             // need to keep this at end because it overlaps with some of the previous characters
             else if (TEXT_REGEX.test(currChar)) {
-                console.log("Token Text");
+                console.log(`Token TEXT: ${currChar}`)
                 tokens.push(this.#tokenizeText());
             }   
             currChar = this.#scanNextCharacter();

@@ -16,7 +16,8 @@ function findNextToken(arrTokens: Array<Token>, matchingType: TokenTypes, starti
 
 function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: number, endingIndex: number) {
     const NOT_FOUND = -1;
-    for (let i = startingIndex; i < endingIndex; ++i) {
+    let i = startingIndex;
+    while (i < endingIndex) {
         switch (arrTokens[i].tokenType) {
             case TokenTypes.Text:
                 console.log("HERE TEXT");
@@ -34,8 +35,9 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
                 const nextTokenIndex = findNextToken(arrTokens, TokenTypes.Bold, i, endingIndex);
                 if (nextTokenIndex !== NOT_FOUND) {
                     const boldSyntaxNode = SyntaxTree.syntaxTreeFactory(NodeTypes.Strong);
-                    parseGeneral(boldSyntaxNode, arrTokens, i, nextTokenIndex);
+                    parseGeneral(boldSyntaxNode, arrTokens, i+1, nextTokenIndex);
                     root.children.push(boldSyntaxNode);
+                    i = nextTokenIndex;
                 }
                 else {
                     root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, arrTokens[i].val));
@@ -46,8 +48,9 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
                 const nextTokenIndex = findNextToken(arrTokens, TokenTypes.Italic, i, endingIndex);
                 if (nextTokenIndex !== NOT_FOUND) {
                     const italicSyntaxNode = SyntaxTree.syntaxTreeFactory(NodeTypes.I);
-                    parseGeneral(italicSyntaxNode, arrTokens, i, nextTokenIndex);
+                    parseGeneral(italicSyntaxNode, arrTokens, i+1, nextTokenIndex);
                     root.children.push(italicSyntaxNode);
+                    i = nextTokenIndex;
                 }
                 else {
                     root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, arrTokens[i].val));
@@ -58,8 +61,9 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
                 const nextTokenIndex = findNextToken(arrTokens, TokenTypes.RLink, i, endingIndex); 
                 if (nextTokenIndex !== NOT_FOUND) {
                     const linkSyntaxNode = SyntaxTree.syntaxTreeFactory(NodeTypes.A);
-                    parseGeneral(linkSyntaxNode, arrTokens, i, nextTokenIndex);
+                    parseGeneral(linkSyntaxNode, arrTokens, i+1, nextTokenIndex);
                     root.children.push(linkSyntaxNode);
+                    i = nextTokenIndex;
                 }
                 else {
                     root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, "&lt"));
@@ -76,8 +80,9 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
                 const nextTokenIndex = findNextToken(arrTokens, TokenTypes.Code, i, endingIndex);
                 if (nextTokenIndex !== NOT_FOUND) {
                     const codeSyntaxTree = SyntaxTree.syntaxTreeFactory(NodeTypes.Code);
-                    parseGeneral(codeSyntaxTree, arrTokens, i, nextTokenIndex);
+                    parseGeneral(codeSyntaxTree, arrTokens, i+1, nextTokenIndex);
                     root.children.push(codeSyntaxTree);
+                    i = nextTokenIndex;
                 }
                 else {
                     root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, "`"));
@@ -85,6 +90,7 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
                 break;
             }
         }
+        ++i;
     }
 }
 
