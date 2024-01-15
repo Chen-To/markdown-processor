@@ -87,7 +87,7 @@ export class SyntaxTree {
                 break;
             // TODO: Verify validity of the link
             case NodeTypes.A:
-                html = `<a href='${html}'/>`;
+                html = `<a href='${html}'>` + html + "</a>";
                 break;
             case NodeTypes.Ol:
                 html = "<ol>" + html + "</ol>";
