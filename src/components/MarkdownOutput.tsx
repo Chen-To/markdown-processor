@@ -10,7 +10,10 @@ export const MarkdownOutput = ({ inputText }: MarkdownOutputProps) => {
     const outputHTML = useMarkdownParser({inputMarkdown: inputText});
     return (
         <>  
-            <div dangerouslySetInnerHTML={{ __html: outputHTML }} />
+            <div 
+                style={{height: "100vh", overflowY: "scroll"}} 
+                dangerouslySetInnerHTML={{ __html: outputHTML }} 
+            />
         </>
     );
 }

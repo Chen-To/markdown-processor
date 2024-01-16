@@ -7,13 +7,13 @@ import { MarkdownOutput } from "./MarkdownOutput";
 const WrapperBox = styled("div")({
     display: "flex",
     justifyContent: "center",
-    position: "static"
+    position: "static",
+    // height: "1000px",
 });
 
 export default function InputBox() {
 
     const [inputText, setInputText] = useState(""); 
-
     return (
         <WrapperBox>
             <CssBaseline/>
@@ -26,6 +26,7 @@ export default function InputBox() {
                     <TextField
                         multiline
                         minRows={30}
+                        maxRows={30}
                         value={inputText}
                         onChange={e => setInputText(e.target.value)}
                         variant="filled"
