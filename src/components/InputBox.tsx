@@ -1,21 +1,13 @@
 import * as React from "react"
 import { useState } from "react"
-import TextareaAutosize from "@mui/material/TextareaAutosize"
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import CssBaseline from "@mui/material/CssBaseline";
+    import { TextField, Card, CardActionArea, Typography, CssBaseline, CardContent, CardHeader } from "@mui/material";
 import { styled } from "@mui/system";
 import { MarkdownOutput } from "./MarkdownOutput";
 
 const WrapperBox = styled("div")({
     display: "flex",
-    marginTop: "100px",
     justifyContent: "center",
-});
-
-const TextAreaBox = styled(TextareaAutosize)({
-    width: "100%",
+    position: "static"
 });
 
 export default function InputBox() {
@@ -25,24 +17,35 @@ export default function InputBox() {
     return (
         <WrapperBox>
             <CssBaseline/>
-            <Box sx={{ width: "45%" }}>
-                <CssBaseline/>
-                <AppBar position="relative">
-                    <Typography variant="h6" align='center'>Markdown</Typography>
-                </AppBar>
-                <TextAreaBox 
-                    minRows={20}
-                    value={inputText}
-                    onChange={e => setInputText(e.target.value)}
+            <Card sx={{ width: "50%", height: "100%" }}>
+                <CardHeader 
+                    sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "rgba(0, 0, 0, 0.10)", borderRadius: "4px" }} 
+                    title={<Typography color="lightblue">Markdown Input</Typography>}
                 />
-            </Box>
-            <Box sx={{ width: "45% "}}>
-                <CssBaseline/>
-                <AppBar position="relative">
-                    <Typography variant="h6" align='center'>Preview</Typography>
-                </AppBar>
-                <MarkdownOutput inputText={inputText}/>
-            </Box>
+                <CardActionArea>
+                    <TextField
+                        multiline
+                        minRows={30}
+                        value={inputText}
+                        onChange={e => setInputText(e.target.value)}
+                        variant="filled"
+                        fullWidth
+                        // sx={{
+                        //     "& .MuiFilledInput-root": { height: "1000px"  },
+                        //     "& .MuiFilledInput-input": { position: "relative" },
+                        // }}
+                    />
+                    </CardActionArea>
+            </Card>
+            <Card sx={{ width: "50% "}}>
+                <CardHeader 
+                    sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "rgba(0, 0, 0, 0.10)", borderRadius: "4px" }} 
+                    title={<Typography color="lightblue">Preview</Typography>}
+                />
+                <CardContent>
+                    <MarkdownOutput inputText={inputText}/>
+                </CardContent>
+            </Card>
         </WrapperBox>
     )
 }
