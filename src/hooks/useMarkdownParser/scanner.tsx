@@ -222,7 +222,7 @@ export class Tokenizer extends Scanner {
                     if (isNumeric(this.#peekNextCharacter()) || LIST_REGEX.test(this.#peekNextCharacter())) {
                         const listToken = this.#tokenizeList(this.#scanNextCharacter());
                         if (listToken) {
-                            tokens.push(listToken);
+                            tokens.push(listToken); 
                         }
                         else {
                             // reset once because we scanned the next character to attempt to create a listToken but failed
@@ -280,9 +280,14 @@ export class LineScanner extends Scanner {
         }
         else {
             let token = "";
+            if (this.input[this.charId] === '\n') {
+                this.charId++;
+                return "\n";
+            }
             while (this.charId < this.input.length && this.input[this.charId] !== '\n') {
                 token += this.input[this.charId++];
             }
+            
             // skipping the newline character
             this.charId++;
             return token;

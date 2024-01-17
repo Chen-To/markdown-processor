@@ -149,8 +149,10 @@ function convertMarkdownToTokens(inputMarkdown: string): Array<Array<Token>> {
     let currLine = ls.scanLine();
     console.log(`currLine: ${currLine}`)
     while (currLine) {
-        const tokenizer = new Tokenizer(currLine);
-        allTokens.push(tokenizer.tokenizeLine());
+        if (currLine !== "\n") {
+            const tokenizer = new Tokenizer(currLine);
+            allTokens.push(tokenizer.tokenizeLine());
+        }
         currLine = ls.scanLine();
     }
     return allTokens;

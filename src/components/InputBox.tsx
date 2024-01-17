@@ -25,16 +25,16 @@ export default function InputBox() {
                 <CardActionArea>
                     <TextField
                         multiline
-                        minRows={30}
-                        maxRows={30}
+                        minRows={31}
+                        maxRows={31}
                         value={inputText}
                         onChange={e => setInputText(e.target.value)}
                         variant="filled"
                         fullWidth
-                        // sx={{
-                        //     "& .MuiFilledInput-root": { height: "1000px"  },
-                        //     "& .MuiFilledInput-input": { position: "relative" },
-                        // }}
+                        sx={{
+                            // "& .MuiFilledInput-root": { position: "relative", height: "100vh"  },
+                            // "& .MuiFilledInput-input": { position: "relative", top: "-10vh"},
+                        }}
                     />
                     </CardActionArea>
             </Card>
