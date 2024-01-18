@@ -50,56 +50,56 @@ export class SyntaxTree {
         }
         switch (this.type) {
             case NodeTypes.H1:
-                html = "<h1>" + html + "</h1>";
+                html = "<h1>" + html + "</h1>\n";
                 break;
             case NodeTypes.H2:
-                html = "<h2>" + html + "</h2>";
+                html = "<h2>" + html + "</h2>\n";
                 break;
             case NodeTypes.H3:
-                html = "<h3>" + html + "</h3>";
+                html = "<h3>" + html + "</h3>\n";
                 break;
             case NodeTypes.H4:
-                html = "<h4>" + html + "</h4>";
+                html = "<h4>" + html + "</h4>\n";
                 break;
             case NodeTypes.H5:
-                html = "<h5>" + html + "</h5>";
+                html = "<h5>" + html + "</h5>\n";
                 break;
             case NodeTypes.H6:
-                html = "<h6>" + html + "</h6>";
+                html = "<h6>" + html + "</h6>\n";
                 break;
             case NodeTypes.Br:
-                html = "<br>" + html + "</br>";
+                html = "<br>" + html + "</br>\n";
                 break;
             case NodeTypes.Hr:
-                html = "<hr>" + html + "</hr>";
+                html = "<hr>" + html + "</hr>\n";
                 break;
             case NodeTypes.P:
-                html = "<p>" + html + "</p>";
+                html = "<p>" + html + "</p>\n";
                 break;
             case NodeTypes.Strong:
-                html = "<strong>" + html + "</strong>";
+                html = "<strong>" + html + "</strong>\n";
                 break;
             case NodeTypes.Blockquote:
-                html = "<blockquote>" + html + "</blockquote>";
+                html = "<blockquote>" + html + "</blockquote>\n";
                 break;
             case NodeTypes.I:
-                html = "<i>" + html + "</i>";
+                html = "<i>" + html + "</i>\n";
                 break;
             // TODO: Verify validity of the link
             case NodeTypes.A:
-                html = `<a href='${html}'>` + html + "</a>";
+                html = `<a href='${html}'>` + html + "</a>\n";
                 break;
             case NodeTypes.Ol:
-                html = "<ol>" + html + "</ol>";
+                html = "<ol>" + html + "</ol>\n";
                 break;
             case NodeTypes.Ul:
-                html = "<ul>" + html + "</ul>";
+                html = "<ul>" + html + "</ul>\n";
                 break;
             case NodeTypes.Li:
-                html = "<li>" + html + "</li>";
+                html = "<li>" + html + "</li>\n";
                 break;
             case NodeTypes.Code:
-                html = "<code>" + html + "</code>";
+                html = "<code>" + html + "</code>\n";
                 break;
             // redundant case here for only clarity
             case NodeTypes.Text:

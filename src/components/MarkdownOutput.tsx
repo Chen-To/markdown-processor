@@ -11,7 +11,7 @@ export const MarkdownOutput = ({ inputText }: MarkdownOutputProps) => {
     return (
         <>  
             <div 
-                style={{height: "100vh", overflowY: "scroll"}} 
+                style={{height: "706px", overflowY: "scroll"}} 
                 dangerouslySetInnerHTML={{ __html: outputHTML }} 
             />
         </>
