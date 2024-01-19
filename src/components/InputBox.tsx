@@ -14,6 +14,7 @@ const WrapperBox = styled("div")({
 const defaultMarkdown = `# ${process.env.APP_NAME}
 ---
 ${process.env.APP_NAME} is a simple markdown parser that converts markdown to HTML.`
+
 export default function InputBox() {
 
     const [inputText, setInputText] = useState(defaultMarkdown); 
@@ -32,7 +33,6 @@ export default function InputBox() {
                             multiline
                             minRows={31}
                             maxRows={31}
-                            defaultValue={defaultMarkdown}
                             value={inputText}
                             onChange={e => setInputText(e.target.value)}
                             variant="filled"

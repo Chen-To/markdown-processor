@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/main.js",
   "scripts": {
-    "build": "webpack serve --mode development",
-    "build-prod": "webpack --mode production"
+    "build": "webpack serve --mode=development",
+    "build-prod": "webpack --mode=production"
   },
   "keywords": [],
   "author": "",
