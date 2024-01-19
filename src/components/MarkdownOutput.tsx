@@ -3,7 +3,6 @@ import { useMarkdownParser } from "../hooks/useMarkdownParser/useMarkdownParser"
 
 type MarkdownOutputProps = {
     inputText : string
-
 }
 
 export const MarkdownOutput = ({ inputText }: MarkdownOutputProps) => {
