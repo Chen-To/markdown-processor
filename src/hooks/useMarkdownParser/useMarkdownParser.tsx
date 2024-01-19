@@ -172,8 +172,8 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
             newParagraph = true;
             continue;
         }
+
         // parsing rules based on first token
-        
         switch (allTokens[i][0].tokenType) {
             case TokenTypes.HorizontalRule:
                 syntaxTree.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Hr));
@@ -255,6 +255,7 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
             currParagraphTree = null;
         }
     }
+    
     // edge case for ending with a paragraph we would still need to push the paragraph tree
     if (currParagraphTree) {
         syntaxTree.children.push(currParagraphTree);

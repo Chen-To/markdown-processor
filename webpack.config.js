@@ -2,6 +2,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintWebpackPlugin = require("eslint-webpack-plugin");
+const DefinePlugin = require("webpack").DefinePlugin;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const webpack = require("webpack");
 
@@ -19,7 +20,12 @@ module.exports = {
             template: path.resolve(__dirname, "src", "home.html"),
         }),
         new ESLintWebpackPlugin({ extensions: ['js', 'jsx', 'ts', 'tsx'] }),
-        // new CleanWebpackPlugin()
+        new DefinePlugin({
+            'process.env': {
+                'APP_NAME': JSON.stringify('ToryMD')
+            }
+        }),
+        new CleanWebpackPlugin()
     ],
     devServer: {
         static: './dist',

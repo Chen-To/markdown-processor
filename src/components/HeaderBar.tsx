@@ -22,7 +22,7 @@ export default function HeaderBar() {
                 <Box sx={{ position: "static", flexGrow: 1 }}>
                     <AppBar position="static" color='primary'>
                         <Toolbar>
-                            <Typography variant="h5" color="white" sx={{ flexGrow: 1 }}>Markdown Editor</Typography>
+                            <Typography variant="h5" color="white" sx={{ flexGrow: 1 }}>{process.env.APP_NAME}</Typography>
                             <Button color="inherit" onClick={openMarkdownDocs}>
                                 Markdown Syntax
                                 <OpenInNewIcon/>

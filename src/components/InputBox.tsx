@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
-    import { TextField, Card, CardActionArea, Typography, CssBaseline, CardContent, CardHeader, Box } from "@mui/material";
+import { TextField, Card, CardActionArea, Typography, CssBaseline, CardContent, CardHeader, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import { MarkdownOutput } from "./MarkdownOutput";
 
@@ -11,9 +11,12 @@ const WrapperBox = styled("div")({
     // height: "1000px",
 });
 
+const defaultMarkdown = `# ${process.env.APP_NAME}
+---
+${process.env.APP_NAME} is a simple markdown parser that converts markdown to HTML.`
 export default function InputBox() {
 
-    const [inputText, setInputText] = useState(""); 
+    const [inputText, setInputText] = useState(defaultMarkdown); 
     return (
         <>
             <CssBaseline/>
@@ -29,6 +32,7 @@ export default function InputBox() {
                             multiline
                             minRows={31}
                             maxRows={31}
+                            defaultValue={defaultMarkdown}
                             value={inputText}
                             onChange={e => setInputText(e.target.value)}
                             variant="filled"
