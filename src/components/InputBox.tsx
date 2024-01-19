@@ -50,7 +50,7 @@ export default function InputBox() {
                     </CardContent>
                 </Card>
             </WrapperBox>
-            <Box sx={{ background: "lightBlue", width: "100vw", height: "100vh" }}/>
+            <Box sx={{ background: "rgba(0, 0, 0, 0.06)", width: "100vw", height: "100vh" }}/>
         </>
     )
 }

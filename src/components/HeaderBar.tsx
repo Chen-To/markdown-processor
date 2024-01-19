@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AppBar, Box, Toolbar, Typography, IconButton, Button } from '@mui/material';
 import { lightBlue } from '@mui/material/colors';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -24,6 +25,7 @@ export default function HeaderBar() {
                             <Typography variant="h5" color="white" sx={{ flexGrow: 1 }}>Markdown Editor</Typography>
                             <Button color="inherit" onClick={openMarkdownDocs}>
                                 Markdown Syntax
+                                <OpenInNewIcon/>
                             </Button>
                             <IconButton
                                 href='https://github.com/Chen-To/MarkdownProcessor'
