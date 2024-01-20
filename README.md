@@ -1,10 +1,6 @@
 # Markdown Processor
 
-*** 
-
 ## Description 
-
-*** 
 
 ToryMD is a simple web-based markdown parser that converts markdown to HTML and displays the result. 
 It is built completely from scratch without using any external packages to handle any of the logic of parsing through the markdown input.
@@ -22,9 +18,9 @@ The compiler makes use of concepts that I've learned. It works in 3 stages: a sc
 3. To build the project based on the dev environment run `npm run build`.
 4. Go to <http://localhost:3000/> to view the project.
 
-## Future Plans
-
 ***
+
+## Future Plans
 
 I am still updating this project and plan to add support for additional features that make the whole editing experience nicer and provide support for additional markdown features that are not already supported. 
 
