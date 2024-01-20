@@ -13,7 +13,36 @@ const WrapperBox = styled("div")({
 
 const defaultMarkdown = `# ${process.env.APP_NAME}
 ---
-${process.env.APP_NAME} is a simple markdown parser that converts markdown to HTML.`
+${process.env.APP_NAME} is a simple web-based markdown parser that converts markdown to HTML and displays the result.
+
+It supports the basic markdown syntax found at <https://www.markdownguide.org/basic-syntax>.
+
+It allows you to write markdown and preview it on the web!
+
+We are looking to fine tune existing features and add news ones!
+
+--- 
+
+# Basic Syntax
+
+# Header 1
+## Header 2
+### Header 3
+#### Header 4
+##### Header 5
+###### Header 6
+
+**Bold**
+*Italic*
+***Bold and Italic***
+\`code\`
+- unordered list
+- unordered list
+- unordered list
+1. ordered list
+2. ordered list
+3. ordered list
+`
 
 export default function InputBox() {
 
