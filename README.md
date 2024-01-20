@@ -2,7 +2,7 @@
 
 ## Description 
 
-ToryMD is a simple web-based markdown parser that converts markdown to HTML and displays the result. 
+[ToryMD](https://markdown.torychen.com) is a simple web-based markdown parser that converts markdown to HTML and displays the result. 
 It is built completely from scratch without using any external packages to handle any of the logic of parsing through the markdown input.
 
 ### Core Idea
