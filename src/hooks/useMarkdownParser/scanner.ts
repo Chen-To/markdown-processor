@@ -39,7 +39,6 @@ export class Tokenizer extends Scanner {
             return null;
         }
         else {
-            // console.log(this.input[this.charId]);
             return this.input[this.charId];
         }
     }
@@ -93,13 +92,10 @@ export class Tokenizer extends Scanner {
 
     #tokenizeText(): Token {
         let resultText = this.#getCurrentCharacter();
-        // in case it is null we check first
-        console.log(`resultText1: ${resultText}`)
         while (this.#peekNextCharacter() && TEXT_REGEX.test(this.#peekNextCharacter())) {
             resultText += this.#peekNextCharacter();
             this.#scanNextCharacter();
         }
-        console.log(`resultText2: ${resultText}`)
         return new Token(TokenTypes.Text, resultText);
     }
 
@@ -193,7 +189,6 @@ export class Tokenizer extends Scanner {
                 }
                 // keep horizontal rule before list
                 if (HORIZONTAL_REGEX.test(currChar)) {
-                    console.log("HORIZONTAL RULE HERE");
                     const horizontalRuleToken = this.#tokenizeHorizontalRule(currChar);
                     if (horizontalRuleToken) {
                         tokens.push(horizontalRuleToken);
@@ -233,7 +228,9 @@ export class Tokenizer extends Scanner {
                     continue;
                 }
             }
-            console.log(`currLine2: ${this.input}`);
+            if (process.env.NODE_ENV === "development") {
+                console.log(`currLine2: ${this.input}`);
+            }
             // all other general markdown rules not specific to start of the line
             if (currChar === "<") {
                 tokens.push(new Token(TokenTypes.LLink, "<"));
@@ -253,12 +250,10 @@ export class Tokenizer extends Scanner {
             else if (currChar === "*") {
                 const formatToken = this.#tokenizeItalticOrBold(lastFormatType);
                 lastFormatType = lastFormatType === formatToken.tokenType ? null : formatToken.tokenType;
-                console.log(this.#peekNextCharacter());
                 tokens.push(formatToken);
             }
             // need to keep this at end because it overlaps with some of the previous characters
             else if (TEXT_REGEX.test(currChar)) {
-                console.log(`Token TEXT: ${currChar}`)
                 tokens.push(this.#tokenizeText());
             }   
             currChar = this.#scanNextCharacter();

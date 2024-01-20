@@ -20,7 +20,6 @@ function parseGeneral(root: SyntaxTree, arrTokens: Array<Token>, startingIndex: 
     while (i < endingIndex) {
         switch (arrTokens[i].tokenType) {
             case TokenTypes.Text:
-                console.log("HERE TEXT");
                 root.children.push(SyntaxTree.syntaxTreeFactory(NodeTypes.Text, arrTokens[i].val));
                 break;
             case TokenTypes.Whitespace:
@@ -147,7 +146,9 @@ function convertMarkdownToTokens(inputMarkdown: string): Array<Array<Token>> {
     const ls = new LineScanner(inputMarkdown);
     const allTokens: Array<Array<Token>> = [];
     let currLine = ls.scanLine();
-    console.log(`currLine: ${currLine}`)
+    if (process.env.NODE_ENV === "development") {
+        console.log(`currLine: ${currLine}`)
+    }
     while (currLine) {
         if (currLine !== "\n") {
             const tokenizer = new Tokenizer(currLine);
@@ -165,7 +166,9 @@ function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
     let currParagraphTree: SyntaxTree = null;
     let newParagraph: boolean = true;
     const allTokens = convertMarkdownToTokens(inputMarkdown);
-    console.log(`allTokens: ${allTokens}`)
+    if (process.env.NODE_ENV === "development") {
+        console.log(`allTokens: ${allTokens}`)
+    }
     for (let i = 0; i < allTokens.length; ++i) {
         if (allTokens[i].length === 0) {
             // TODO: Examine empty line logic (its a skip line for now) but it is relevant for starting new paragraphs
@@ -274,7 +277,9 @@ export const useMarkdownParser = ({ inputMarkdown }: MarkdownParserHookProps) =>
         const html = syntaxTree.generateHTML();
         setOutputHTML(html);
         // For debugging
-        console.log(html);
+        if (process.env.NODE_ENV === "development") {
+            console.log(html);
+        }
     });
     return outputHTML;
 }
