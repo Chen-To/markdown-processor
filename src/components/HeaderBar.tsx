@@ -28,7 +28,7 @@ export default function HeaderBar() {
                                 <OpenInNewIcon/>
                             </Button>
                             <IconButton
-                                href='https://github.com/Chen-To/MarkdownProcessor'
+                                href='https://github.com/Chen-To/markdown-processor'
                                 size="large"
                             >
                                 <GitHubIcon />
