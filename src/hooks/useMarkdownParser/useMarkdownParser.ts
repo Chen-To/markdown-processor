@@ -160,7 +160,7 @@ function convertMarkdownToTokens(inputMarkdown: string): Array<Array<Token>> {
 }   
 
 
-// TODO: Probably move this into the hook so that we can call setState for the error
+// POTENTIAL: Probably move this into the hook so that we can call setState for the error
 function generateSyntaxTree(inputMarkdown: string): SyntaxTree {
     const syntaxTree = SyntaxTree.syntaxTreeFactory();
     let currParagraphTree: SyntaxTree = null;

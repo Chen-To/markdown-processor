@@ -21,7 +21,7 @@ It allows you to write markdown and preview it on the web!
 
 We are looking to fine tune existing features and add news ones!
 
---- 
+---
 
 # Basic Syntax
 
